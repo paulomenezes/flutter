@@ -7,16 +7,38 @@ void main() {
         appBar: AppBar(
           title: const Text("Exercicio 8"),
         ),
-        body: Column(children: const [
-          Text("Item 1"),
-          Divider(),
-          Text("Item 2"),
-          Divider(),
-          Text("Item 3"),
-          Divider(),
-          Text("Item 4"),
-          Divider(),
-          Text("Item 5"),
-        ]),
+        body: ContentWidget(),
       )));
+}
+
+class ContentWidget extends StatefulWidget {
+  const ContentWidget({Key? key}) : super(key: key);
+
+  @override
+  State<ContentWidget> createState() => _ContentState();
+}
+
+class _ContentState extends State<ContentWidget> {
+  String texto = "Inicio";
+
+  final TextEditingController inputController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      Text(texto),
+      TextField(
+        decoration: const InputDecoration(
+            border: OutlineInputBorder(), hintText: "Digite algo"),
+        controller: inputController,
+      ),
+      ElevatedButton(
+          onPressed: () {
+            setState(() {
+              texto = inputController.text;
+            });
+          },
+          child: const Text("Clique aqui"))
+    ]);
+  }
 }
