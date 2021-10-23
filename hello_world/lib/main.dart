@@ -5,41 +5,18 @@ void main() {
       title: 'Flutter Start',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Hello World"),
+          title: const Text("Exercicio 8"),
         ),
-        body: Container(
-            alignment: Alignment.center,
-            child: Column(
-              children: [
-                Row(children: [
-                  Container(
-                      child: const Text(
-                        "Texto 1",
-                        style: TextStyle(backgroundColor: Colors.blue),
-                      ),
-                      padding: const EdgeInsets.all(10)),
-                  Container(
-                      child: const Text(
-                        "Texto 2",
-                        style: TextStyle(backgroundColor: Colors.blue),
-                      ),
-                      padding: const EdgeInsets.all(10)),
-                ]),
-                Row(children: [
-                  Container(
-                      child: const Text(
-                        "Texto 3",
-                        style: TextStyle(backgroundColor: Colors.blue),
-                      ),
-                      padding: const EdgeInsets.all(10)),
-                  Container(
-                      child: const Text(
-                        "Texto 4",
-                        style: TextStyle(backgroundColor: Colors.blue),
-                      ),
-                      padding: const EdgeInsets.all(10)),
-                ]),
-              ],
-            )),
+        body: Column(children: const [
+          Text("Item 1"),
+          Divider(),
+          Text("Item 2"),
+          Divider(),
+          Text("Item 3"),
+          Divider(),
+          Text("Item 4"),
+          Divider(),
+          Text("Item 5"),
+        ]),
       )));
 }
