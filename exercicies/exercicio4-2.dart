@@ -6,6 +6,12 @@ class Car extends Vehicle {
   }
 }
 
+class EletrictCar extends Vehicle with Autonomous {
+  horn() {
+    print("π");
+  }
+}
+
 class MotorCycle extends Vehicle {
   horn() {
     print("bi");
@@ -24,4 +30,8 @@ main() {
 
   var motorCycle = MotorCycle();
   motorCycle.horn();
+
+  var eletrictCar = EletrictCar();
+  eletrictCar.horn();
+  eletrictCar.selfDrive();
 }

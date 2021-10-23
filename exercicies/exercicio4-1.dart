@@ -1,3 +1,9 @@
+mixin Autonomous on Vehicle {
+  selfDrive() {
+    print("self driving");
+  }
+}
+
 abstract class Vehicle {
   int _currentSpeed = 0;
 
