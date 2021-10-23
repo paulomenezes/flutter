@@ -1,37 +1,40 @@
 import 'exercicio4-1.dart';
 
 class Car extends Vehicle {
-  horn() {
-    print("pom");
-  }
+  Car(String brand, String model) : super(brand, model);
+
+  horn() => print("pom");
 }
 
 class EletrictCar extends Vehicle with Autonomous {
-  horn() {
-    print("π");
-  }
+  EletrictCar(String brand, String model) : super(brand, model);
+
+  horn() => print("π");
 }
 
 class MotorCycle extends Vehicle {
-  horn() {
-    print("bi");
-  }
+  MotorCycle(String brand, String model) : super(brand, model);
+
+  horn() => print("bi");
 }
 
 main() {
-  var car = Car();
-  car.accelerate();
-  car.accelerate();
-  car.accelerate();
-  car.accelerate();
+  var car = Car("Ford", "Fiesta");
+  car..accelerate()..accelerate()..accelerate()..accelerate();
 
-  print(car.currentSpeed);
   car.horn();
+  car.trace();
 
-  var motorCycle = MotorCycle();
+  print("## -- ##");
+
+  var motorCycle = MotorCycle("Honda", "CBR");
   motorCycle.horn();
+  motorCycle.trace();
 
-  var eletrictCar = EletrictCar();
+  print("## -- ##");
+
+  var eletrictCar = EletrictCar("Tesla", "Model S");
   eletrictCar.horn();
   eletrictCar.selfDrive();
+  eletrictCar.trace();
 }

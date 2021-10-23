@@ -9,9 +9,22 @@ abstract class Vehicle {
 
   get currentSpeed => _currentSpeed;
 
+  String brand;
+  String model;
+  int? year;
+
+  Vehicle(this.brand, this.model, [this.year]);
+
   accelerate() {
     _currentSpeed += 5;
   }
 
   horn();
+
+  trace() {
+    print(currentSpeed);
+    print(brand);
+    print(model);
+    print(year);
+  }
 }
