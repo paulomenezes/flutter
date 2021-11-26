@@ -61,6 +61,8 @@ class _HomeBodyState extends State<HomeBody> {
 
   @override
   Widget build(BuildContext context) {
+    updateFavorites();
+
     Size screenSize = MediaQuery.of(context).size;
 
     return SizedBox(
@@ -82,6 +84,7 @@ class _HomeBodyState extends State<HomeBody> {
               ),
               RecomemdedPlantList(
                 plants: favoritePlants,
+                isFavorited: true,
                 onFavorite: () {
                   updateFavorites();
                 },
@@ -96,6 +99,7 @@ class _HomeBodyState extends State<HomeBody> {
               ),
               RecomemdedPlantList(
                 plants: nonFavoriteplants,
+                isFavorited: false,
                 onFavorite: () {
                   updateFavorites();
                 },

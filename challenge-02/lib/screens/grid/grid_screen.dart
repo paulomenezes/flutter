@@ -26,6 +26,8 @@ class GridScreen extends StatelessWidget {
               horizontal: kDefaultPadding, vertical: kDefaultPadding),
           itemBuilder: (context, index) => RecomendedPlanCard(
             plant: plants[index],
+            isFavorited: false,
+            isGrid: true,
             onFavorite: () {},
           ),
           itemCount: plants.length,

@@ -10,9 +10,15 @@ import 'package:flutter_svg/svg.dart';
 class RecomendedPlanCard extends StatefulWidget {
   final Function onFavorite;
   final Plant plant;
+  final bool isFavorited;
+  final bool isGrid;
 
   const RecomendedPlanCard(
-      {Key? key, required this.plant, required this.onFavorite})
+      {Key? key,
+      required this.plant,
+      required this.onFavorite,
+      required this.isFavorited,
+      required this.isGrid})
       : super(key: key);
 
   @override
@@ -21,6 +27,7 @@ class RecomendedPlanCard extends StatefulWidget {
 
 class _RecomendedPlanCardState extends State<RecomendedPlanCard> {
   final FavoritesDataSource dataSource = FavoritesDataSource();
+  bool isFavorite = false;
 
   List<String> favorites = [];
 
@@ -31,6 +38,8 @@ class _RecomendedPlanCardState extends State<RecomendedPlanCard> {
   _RecomendedPlanCardState() {
     dataSource.getFavorite().then((value) => setState(() {
           favorites = value;
+
+          isFavorite = isFavorited(widget.plant.id);
         }));
   }
 
@@ -61,6 +70,7 @@ class _RecomendedPlanCardState extends State<RecomendedPlanCard> {
                             width: 16,
                             child: Center(
                                 child: CircularProgressIndicator(
+                              color: kPrimaryColor,
                               strokeWidth: 1.5,
                             ))),
                         fit: BoxFit.cover,
@@ -76,10 +86,14 @@ class _RecomendedPlanCardState extends State<RecomendedPlanCard> {
                           favorites =
                               await dataSource.toggleFavorite(widget.plant.id);
                           widget.onFavorite();
+                          isFavorite = !isFavorite;
                           setState(() {});
                         },
                         child: SvgPicture.asset(
-                          isFavorited(widget.plant.id)
+                          (widget.isFavorited ||
+                                  (!widget.isFavorited &&
+                                      widget.isGrid &&
+                                      isFavorite))
                               ? "assets/icons/heart.svg"
                               : "assets/icons/heart-outline.svg",
                           color: kPrimaryColor,
