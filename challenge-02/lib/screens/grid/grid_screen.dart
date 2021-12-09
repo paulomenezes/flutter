@@ -1,6 +1,6 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:challenge_ui_plant_app/constants.dart';
 import 'package:challenge_ui_plant_app/models/grid_arguments.dart';
-import 'package:challenge_ui_plant_app/screens/home/components/home_body.dart';
 import 'package:challenge_ui_plant_app/screens/home/components/recommend_plan_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -26,9 +26,6 @@ class GridScreen extends StatelessWidget {
               horizontal: kDefaultPadding, vertical: kDefaultPadding),
           itemBuilder: (context, index) => RecomendedPlanCard(
             plant: plants[index],
-            isFavorited: false,
-            isGrid: true,
-            onFavorite: () {},
           ),
           itemCount: plants.length,
         ));
@@ -36,7 +33,9 @@ class GridScreen extends StatelessWidget {
 
   AppBar buildAppBar(BuildContext context, String type) {
     return AppBar(
-      title: Text(type == 'favorites' ? "Favorites" : "All Plants"),
+      title: Text(type == 'favorites'
+          ? AppLocalizations.of(context)!.favorites
+          : AppLocalizations.of(context)!.allPlants),
       backgroundColor: kPrimaryColor,
       elevation: 0,
       leading: IconButton(

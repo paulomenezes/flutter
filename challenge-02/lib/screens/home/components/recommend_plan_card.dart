@@ -3,45 +3,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:challenge_ui_plant_app/constants.dart';
 import 'package:challenge_ui_plant_app/models/plant.dart';
-import 'package:challenge_ui_plant_app/utils/favorites_data_source.dart';
+import 'package:challenge_ui_plant_app/providers/plant_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
-class RecomendedPlanCard extends StatefulWidget {
-  final Function onFavorite;
+class RecomendedPlanCard extends StatelessWidget {
   final Plant plant;
-  final bool isFavorited;
-  final bool isGrid;
 
-  const RecomendedPlanCard(
-      {Key? key,
-      required this.plant,
-      required this.onFavorite,
-      required this.isFavorited,
-      required this.isGrid})
-      : super(key: key);
-
-  @override
-  _RecomendedPlanCardState createState() => _RecomendedPlanCardState();
-}
-
-class _RecomendedPlanCardState extends State<RecomendedPlanCard> {
-  final FavoritesDataSource dataSource = FavoritesDataSource();
-  bool isFavorite = false;
-
-  List<String> favorites = [];
-
-  bool isFavorited(String id) {
-    return favorites.contains(id);
-  }
-
-  _RecomendedPlanCardState() {
-    dataSource.getFavorite().then((value) => setState(() {
-          favorites = value;
-
-          isFavorite = isFavorited(widget.plant.id);
-        }));
-  }
+  const RecomendedPlanCard({Key? key, required this.plant}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +19,7 @@ class _RecomendedPlanCardState extends State<RecomendedPlanCard> {
       width: 160,
       child: GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, "/detail", arguments: widget.plant);
+            Navigator.pushNamed(context, "/detail", arguments: plant);
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -64,7 +34,7 @@ class _RecomendedPlanCardState extends State<RecomendedPlanCard> {
                         topRight: Radius.circular(10),
                       ),
                       child: CachedNetworkImage(
-                        imageUrl: widget.plant.image,
+                        imageUrl: plant.image,
                         placeholder: (context, url) => const SizedBox(
                             height: 16,
                             width: 16,
@@ -81,23 +51,17 @@ class _RecomendedPlanCardState extends State<RecomendedPlanCard> {
                   alignment: Alignment.topRight,
                   child: Container(
                     padding: const EdgeInsets.all(8),
-                    child: GestureDetector(
-                        onTap: () async {
-                          favorites =
-                              await dataSource.toggleFavorite(widget.plant.id);
-                          widget.onFavorite();
-                          isFavorite = !isFavorite;
-                          setState(() {});
-                        },
-                        child: SvgPicture.asset(
-                          (widget.isFavorited ||
-                                  (!widget.isFavorited &&
-                                      widget.isGrid &&
-                                      isFavorite))
-                              ? "assets/icons/heart.svg"
-                              : "assets/icons/heart-outline.svg",
-                          color: kPrimaryColor,
-                        )),
+                    child: Consumer<PlantProvider>(
+                        builder: (context, value, child) => GestureDetector(
+                            onTap: () async {
+                              value.favorite(plant.id);
+                            },
+                            child: SvgPicture.asset(
+                              value.isFavorited(plant.id)
+                                  ? "assets/icons/heart.svg"
+                                  : "assets/icons/heart-outline.svg",
+                              color: kPrimaryColor,
+                            ))),
                   ),
                 ),
               ]),
@@ -118,21 +82,20 @@ class _RecomendedPlanCardState extends State<RecomendedPlanCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                        widget.plant.name
-                            .substring(0, min(14, widget.plant.name.length))
+                        plant.name
+                            .substring(0, min(14, plant.name.length))
                             .toUpperCase(),
                         style: Theme.of(context).textTheme.button),
                     Row(children: [
                       Text(
-                          widget.plant.country
-                              .substring(
-                                  0, min(10, widget.plant.country.length))
+                          plant.country
+                              .substring(0, min(10, plant.country.length))
                               .toUpperCase(),
                           style:
                               TextStyle(color: kPrimaryColor.withOpacity(0.5))),
                       const Spacer(),
                       Text(
-                        "\$${widget.plant.price}",
+                        "\$${plant.price}",
                         style: Theme.of(context)
                             .textTheme
                             .button!

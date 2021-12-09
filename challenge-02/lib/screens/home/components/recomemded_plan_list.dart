@@ -5,16 +5,9 @@ import 'package:flutter/material.dart';
 import 'recommend_plan_card.dart';
 
 class RecomemdedPlantList extends StatelessWidget {
-  final Function onFavorite;
-  final bool isFavorited;
   List<Plant> plants = [];
 
-  RecomemdedPlantList(
-      {Key? key,
-      required this.plants,
-      required this.onFavorite,
-      required this.isFavorited})
-      : super(key: key);
+  RecomemdedPlantList({Key? key, required this.plants}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +21,6 @@ class RecomemdedPlantList extends StatelessWidget {
               const SizedBox(width: kDefaultPadding),
               RecomendedPlanCard(
                 plant: plants[index],
-                onFavorite: onFavorite,
-                isFavorited: isFavorited,
-                isGrid: false,
               )
             ]),
             itemCount: plants.length,

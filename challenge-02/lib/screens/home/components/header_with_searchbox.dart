@@ -1,14 +1,29 @@
+import 'dart:io';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:challenge_ui_plant_app/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HeaderWithSearchBox extends StatelessWidget {
-  const HeaderWithSearchBox({
+  bool isWifiEnabled = false;
+
+  HeaderWithSearchBox({
     Key? key,
     required this.screenSize,
-  }) : super(key: key);
+  }) {
+    teste();
+  }
 
   final Size screenSize;
+
+  void teste() async {
+    var platform = const MethodChannel('samples.flutter.dev/wifi');
+
+    try {
+      isWifiEnabled = await platform.invokeMethod("isWifiEnabled");
+    } on PlatformException catch (e) {/* ... */}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +47,28 @@ class HeaderWithSearchBox extends StatelessWidget {
               ),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Plant App",
+                  AppLocalizations.of(context)!.title,
                   style: Theme.of(context).textTheme.headline5!.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                 ),
+                Platform.isAndroid
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                            Text(AppLocalizations.of(context)!.wifi,
+                                style: const TextStyle(color: Colors.white)),
+                            Switch(
+                              value: isWifiEnabled,
+                              onChanged: (value) {},
+                              activeColor: Colors.white,
+                            ),
+                          ])
+                    : Row()
               ],
             ),
           ),
